@@ -31,4 +31,4 @@
         chart_ref: ../../charts/nextjs-frontend
         release_namespace: sdd-navigator
         values_files:
-          - ../../values/dev-values.yaml
+          - values/dev-values.yaml
