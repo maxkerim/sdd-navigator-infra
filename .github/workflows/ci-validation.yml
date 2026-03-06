@@ -1,0 +1,36 @@
+name: CI Validation Infrastructure
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install tools
+        run: |
+          curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+          python -m pip install ansible ansible-lint
+          curl -Lo kubeconform https://github.com/yannh/kubeconform/releases/latest/download/kubeconform-linux-amd64 && chmod +x kubeconform
+
+      - name: Ansible Lint
+        run: ansible-lint ansible/playbooks/deploy-stack.yml
+
+      - name: Helm Lint all charts
+        run: |
+          helm lint charts/rust-api
+          helm lint charts/nextjs-frontend
+          helm lint charts/postgres  # или bitnami
+
+      - name: Render & Validate manifests
+        run: |
+          helm template sdd-navigator ./charts/rust-api --values values/dev-values.yaml | ./kubeconform -strict -kubernetes-version 1.29
+          # аналогично для остальных
+
+      - name: Dry-run Ansible deploy
+        run: ansible-playbook ansible/playbooks/deploy-stack.yml --check

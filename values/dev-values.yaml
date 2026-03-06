@@ -1,0 +1,6 @@
+global:
+  postgresql:
+    auth:
+      username: sdd
+      password: sdd123
+      database: sdd_navigator
