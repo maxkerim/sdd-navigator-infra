@@ -1,0 +1,6 @@
+apiVersion: v2
+name: nextjs-frontend
+description: Next.js Frontend for SDD Navigator
+type: application
+version: 0.1.0
+appVersion: "1.0.0"
