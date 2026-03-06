@@ -32,5 +32,4 @@
         release_namespace: sdd-navigator
         values_files:
           - values/dev-values.yaml
-
           
