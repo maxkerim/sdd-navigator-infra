@@ -1,6 +1,7 @@
 apiVersion: v2
 name: rust-api
-description: Rust API для SDD Navigator
+description: Rust API for SDD Navigator stack
 type: application
 version: 0.1.0
 appVersion: "1.0.0"
+icon: https://www.rust-lang.org/logos/rust-logo-blk.svg

@@ -1,6 +1,7 @@
 apiVersion: v2
 name: nextjs-frontend
-description: Next.js Frontend for SDD Navigator
+description: Next.js Frontend for SDD Navigator stack
 type: application
 version: 0.1.0
 appVersion: "1.0.0"
+icon: https://raw.githubusercontent.com/vercel/next.js/canary/examples/with-docker/public/nextjs.svg
