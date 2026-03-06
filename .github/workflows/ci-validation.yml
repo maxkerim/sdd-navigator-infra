@@ -16,9 +16,13 @@ jobs:
 
       - name: Install tools
         run: |
+          set -e
+          # Helm
           curl -fsSL https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+          # Ansible
+          python -m pip install --upgrade pip
           python -m pip install ansible ansible-lint
-
+          # kubeconform
           curl -L -o kubeconform.tar.gz https://github.com/yannh/kubeconform/releases/latest/download/kubeconform-linux-amd64.tar.gz
           tar -xzf kubeconform.tar.gz
           chmod +x kubeconform
@@ -29,13 +33,15 @@ jobs:
 
       - name: Helm Lint all charts
         run: |
+          set -e
           for chart in charts/*; do
             helm lint $chart
           done
 
       - name: Render & Validate manifests
         run: |
-          helm template sdd-navigator ./charts/rust-api --values values/dev-values.yaml | kubeconform -strict -kubernetes-version 1.29
+          set -e
+          helm template sdd-navigator ./charts/rust-api --values values/dev-values.yaml | kubeconform -strict -kubernetes-version 1.29.0
 
       - name: Dry-run Ansible deploy
         run: ansible-playbook ansible/playbooks/deploy-stack.yml --check
